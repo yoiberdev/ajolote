@@ -1,0 +1,4 @@
+node_modules
+dist
+# Originales de la versión realista (imágenes generadas con IA): no se versionan.
+art/

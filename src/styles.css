@@ -1,0 +1,184 @@
+:root {
+  --fg: #effbfa;
+  --muted: rgba(239, 251, 250, 0.72);
+  --water: #06222f;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--water);
+  color: var(--fg);
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* ── Escena ─────────────────────────────────────────────── */
+
+.stage {
+  position: fixed;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1.6s ease;
+}
+
+.stage.ready {
+  opacity: 1;
+}
+
+.loader {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--muted);
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+.loader.hidden {
+  opacity: 0;
+}
+
+/* ── Texto sobre la escena ──────────────────────────────── */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(18px, 3.2vw, 44px);
+  pointer-events: none;
+  text-shadow: 0 2px 18px rgba(0, 25, 35, 0.45);
+}
+
+.logo {
+  margin: 0;
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -0.035em;
+}
+
+.species {
+  margin: 10px 0 0 4px;
+  font-size: clamp(13px, 1.2vw, 16px);
+  font-style: italic;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+footer .hint {
+  color: var(--muted);
+  font-weight: 400;
+  text-align: right;
+}
+
+@media (max-width: 760px) {
+  footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    font-size: 12px;
+  }
+  footer .hint {
+    text-align: left;
+  }
+}
+
+@media (hover: none) {
+  footer .hint {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stage {
+    transition: none;
+  }
+}
+
+/* ── Versión en bloques ─────────────────────────────────── */
+
+.overlay a {
+  color: inherit;
+  pointer-events: auto;
+  text-underline-offset: 3px;
+}
+
+.overlay .firma {
+  font-family: 'Pixelify Sans', 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
+
+.overlay .firma:hover,
+.overlay .firma:focus-visible {
+  text-decoration: underline;
+}
+
+.blocks .logo {
+  font-family: 'Pixelify Sans', 'Inter', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-shadow: 4px 4px 0 rgba(10, 30, 40, 0.55);
+}
+
+.blocks .species,
+.blocks footer {
+  text-shadow: 2px 2px 0 rgba(10, 30, 40, 0.5);
+}
+
+.variant {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+  animation: variant-in 0.5s ease;
+}
+
+.variant .dot {
+  width: 12px;
+  height: 12px;
+  box-shadow: 2px 2px 0 rgba(10, 30, 40, 0.5);
+}
+
+.variant strong {
+  color: #ffe58a;
+}
+
+@keyframes variant-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
