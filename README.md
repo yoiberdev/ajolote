@@ -42,6 +42,13 @@ La lógica que no depende del framework vive en `src/world/`; Svelte solo monta 
 
 El diseño del ajolote es propio, en estilo bloques; no usa texturas ni marcas de Minecraft.
 
+## Publicación
+
+En vivo en https://ajolote.yoiber.dev. El `Dockerfile` compila con Node y sirve el resultado con nginx
+(`nginx.conf`: caché larga para `/assets/`, el HTML siempre revalidado y una política de contenido
+que solo admite el propio sitio; las fuentes van incluidas, sin Google Fonts). En el servidor se
+construye desde un clon del repositorio, y `actualizar.sh` trae la última versión y la reconstruye.
+
 ## Versión anterior
 
 La etiqueta `v1-react` guarda la primera versión, hecha con React Three Fiber, junto con una variante
