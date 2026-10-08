@@ -1,11 +1,10 @@
 # Ajolote
 
-Escena submarina con parallax y un desenfoque de profundidad que sigue al cursor, al estilo de
-[zustand-demo.pmnd.rs](https://zustand-demo.pmnd.rs/). Tiene dos versiones:
+Una cueva submarina hecha de bloques que enfoca donde apuntas: el desenfoque de profundidad sigue al
+cursor y, si haces clic en el ajolote, da una voltereta y cambia de color.
 
-- **En bloques** (por defecto, `/`): una cueva frondosa inundada en 3D, hecha de bloques con texturas pixel-art.
-- **Realista** (`/?estilo=realista`): capas fotográficas generadas con IA. La página no la enlaza; solo se
-  llega con esa dirección.
+Hecho con [Svelte 5](https://svelte.dev) y [Threlte](https://threlte.xyz) sobre three.js. Todo está
+hecho con código: no hay ni una imagen.
 
 ## Arrancar
 
@@ -16,42 +15,35 @@ npm run dev
 
 `npm run build` genera la versión de producción en `dist/`.
 
-En las dos versiones, con el cursor al centro se enfoca el ajolote; arriba a la derecha, el fondo; abajo a la
-izquierda, lo que está pegado a la cámara. En pantallas táctiles la cámara se mueve sola. Al hacer clic en el
-ajolote suelta burbujas (estado en `src/store.js`).
+Con el cursor al centro se enfoca el ajolote; arriba a la derecha, el fondo de la cueva; abajo a la
+izquierda, las plantas pegadas a la cámara. En pantallas táctiles la cámara se mueve sola. Cada clic
+en el ajolote suelta burbujas y saca otro color; el azul sale una vez de cada doce, más o menos.
 
-## Versión en bloques (`src/minecraft/`)
+## Cómo está hecho
 
-Todo está hecho con código, sin imágenes:
+La lógica que no depende del framework vive en `src/world/`; Svelte solo monta la escena y la anima.
 
-- `textures.js`: texturas pixel-art 16×16 (arena, grava, arcilla, musgo, piedra, corales, magma, kelp, bayas
-  luminosas, el ajolote y los peces), pintadas en un canvas.
-- `cave.js`: genera la cueva (terreno con ruido, paredes, techo con huecos de luz) y reparte la decoración.
-- `World.jsx`: dibuja miles de bloques y plantas con instancias; `materials.js` añade los reflejos de agua y el
+- `world/textures.js`: texturas pixel-art de 16×16 (arena, grava, arcilla, musgo, piedra, corales, magma,
+  kelp, bayas luminosas, el ajolote en sus cinco colores y los peces), pintadas en un canvas.
+- `world/cave.js`: genera la cueva con ruido (suelo, paredes y techo con huecos de luz) y reparte la
+  decoración. Son 6627 bloques de 16 tipos.
+- `world/meshes.js`: una `InstancedMesh` por tipo de bloque o planta, así cada tipo se dibuja de una vez.
+- `world/materials.js`: parchea los materiales de three.js para añadir los reflejos del agua y el
   vaivén de las plantas.
-- `Axolotl.jsx`: modelo del ajolote por partes (cuerpo, cabeza, branquias, patas, cola), animado nadando. Al hacer
-  clic da una voltereta.
-- `MinecraftScene.jsx`: luces, niebla de agua, sombras, cámara con parallax, desenfoque, brillo (bloom) y color.
+- `scene/`: los componentes de Svelte.
+  - `Scene.svelte`: luces, niebla y sombras.
+  - `Axolotl.svelte`: el ajolote por partes (cuerpo, cabeza, branquias, patas y cola).
+  - `Fish.svelte`, `Bubbles.svelte`, `Shafts.svelte` y `MarineSnow.svelte`: los peces, las burbujas,
+    los haces de luz y las partículas del agua.
+  - `Rig.svelte`: la cámara con parallax y el punto de enfoque.
+  - `Effects.svelte`: el posproceso (desenfoque, brillo y color) con `postprocessing`.
+- `lib/state.svelte.js`: el color del ajolote, con runas de Svelte. Lo que cambia en cada fotograma
+  (el puntero o la boca del ajolote) va en objetos planos en `lib/shared.js`, sin reactividad.
 
 El diseño del ajolote es propio, en estilo bloques; no usa texturas ni marcas de Minecraft.
 
-## Versión realista (`src/scene/`)
+## Versión anterior
 
-- **Capas** (`public/layers/`): fondo, plantas lejanas, roca con musgo, ajolote y plantas del frente, cada una en un
-  plano a distinta profundidad (`Scene.jsx`).
-- **Movimiento** (`LayerMaterial.js`): las plantas se mecen, la cola del ajolote ondula y sus branquias se agitan,
-  todo con shaders sobre las fotos. Encima hay rayos de luz animados, partículas y burbujas.
-
-### Cambiar las imágenes
-
-Las imágenes originales están en `art/raw/` (generadas con IA sobre fondo de color sólido):
-
-| Archivo | Contenido | Fondo |
-|---|---|---|
-| `axolotl.png` | El ajolote | Verde |
-| `plants.png` | Plantas izquierda, roca y plantas derecha, separadas entre sí | Magenta |
-| `background.png` | El fondo completo | Opaco |
-
-`npm run art` recorta el fondo de color, separa las piezas y exporta las capas WebP a `public/layers/`, junto con
-`src/scene/art.json` (proporciones y puntos de referencia del ajolote: cabeza, boca, branquias y cola). Si cambias
-la foto del ajolote, actualiza esos puntos en `scripts/process-art.mjs`.
+La etiqueta `v1-react` guarda la primera versión, hecha con React Three Fiber, junto con una variante
+realista. La de Svelte es la misma escena y pesa casi un tercio menos: 241 kB comprimidos frente a
+350 kB de la de React solo con la cueva.

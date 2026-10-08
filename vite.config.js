@@ -1,19 +1,10 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { svelte } from '@sveltejs/vite-plugin-svelte'
 
 export default defineConfig({
-  plugins: [react()],
-  // Pre-empaqueta todo junto al arrancar, así no quedan dos copias de React en caché.
+  plugins: [svelte()],
+  // Pre-empaqueta los imports profundos de three al arrancar, para que no recargue a mitad de camino.
   optimizeDeps: {
-    include: [
-      'react',
-      'react-dom/client',
-      'three',
-      'three/examples/jsm/utils/BufferGeometryUtils.js',
-      '@react-three/fiber',
-      '@react-three/drei',
-      '@react-three/postprocessing',
-      'zustand',
-    ],
+    include: ['three', 'three/examples/jsm/utils/BufferGeometryUtils.js', 'postprocessing', '@threlte/core'],
   },
 })

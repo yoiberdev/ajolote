@@ -2,6 +2,7 @@
   --fg: #effbfa;
   --muted: rgba(239, 251, 250, 0.72);
   --water: #06222f;
+  --shadow: rgba(10, 30, 40, 0.5);
 }
 
 * {
@@ -28,30 +29,6 @@ body {
 .stage {
   position: fixed;
   inset: 0;
-  opacity: 0;
-  transition: opacity 1.6s ease;
-}
-
-.stage.ready {
-  opacity: 1;
-}
-
-.loader {
-  position: fixed;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--muted);
-  pointer-events: none;
-  transition: opacity 0.6s ease;
-}
-
-.loader.hidden {
-  opacity: 0;
 }
 
 /* ── Texto sobre la escena ──────────────────────────────── */
@@ -67,12 +44,25 @@ body {
   text-shadow: 0 2px 18px rgba(0, 25, 35, 0.45);
 }
 
+.species,
+footer {
+  text-shadow: 2px 2px 0 var(--shadow);
+}
+
+.overlay a {
+  color: inherit;
+  pointer-events: auto;
+  text-underline-offset: 3px;
+}
+
 .logo {
   margin: 0;
+  font-family: 'Pixelify Sans', 'Inter', sans-serif;
   font-size: clamp(2.4rem, 6vw, 5rem);
-  font-weight: 900;
+  font-weight: 700;
   line-height: 0.9;
-  letter-spacing: -0.035em;
+  letter-spacing: 0.02em;
+  text-shadow: 4px 4px 0 rgba(10, 30, 40, 0.55);
 }
 
 .species {
@@ -83,6 +73,33 @@ body {
   color: var(--muted);
 }
 
+.variant {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 14px 0 0 4px;
+  font-size: 14px;
+  font-weight: 600;
+  animation: variant-in 0.5s ease;
+}
+
+.variant .dot {
+  width: 12px;
+  height: 12px;
+  box-shadow: 2px 2px 0 var(--shadow);
+}
+
+.variant strong {
+  color: #ffe58a;
+}
+
+@keyframes variant-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
 footer {
   display: flex;
   justify-content: space-between;
@@ -91,6 +108,19 @@ footer {
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.02em;
+}
+
+.overlay .firma {
+  font-family: 'Pixelify Sans', 'Inter', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+}
+
+.overlay .firma:hover,
+.overlay .firma:focus-visible {
+  text-decoration: underline;
 }
 
 footer .hint {
@@ -118,67 +148,7 @@ footer .hint {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .stage {
-    transition: none;
-  }
-}
-
-/* ── Versión en bloques ─────────────────────────────────── */
-
-.overlay a {
-  color: inherit;
-  pointer-events: auto;
-  text-underline-offset: 3px;
-}
-
-.overlay .firma {
-  font-family: 'Pixelify Sans', 'Inter', sans-serif;
-  font-size: 15px;
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  text-decoration: none;
-}
-
-.overlay .firma:hover,
-.overlay .firma:focus-visible {
-  text-decoration: underline;
-}
-
-.blocks .logo {
-  font-family: 'Pixelify Sans', 'Inter', sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  text-shadow: 4px 4px 0 rgba(10, 30, 40, 0.55);
-}
-
-.blocks .species,
-.blocks footer {
-  text-shadow: 2px 2px 0 rgba(10, 30, 40, 0.5);
-}
-
-.variant {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 14px 0 0 4px;
-  font-size: 14px;
-  font-weight: 600;
-  animation: variant-in 0.5s ease;
-}
-
-.variant .dot {
-  width: 12px;
-  height: 12px;
-  box-shadow: 2px 2px 0 rgba(10, 30, 40, 0.5);
-}
-
-.variant strong {
-  color: #ffe58a;
-}
-
-@keyframes variant-in {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
+  .variant {
+    animation: none;
   }
 }

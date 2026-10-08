@@ -10,17 +10,13 @@
     "art": "node scripts/process-art.mjs"
   },
   "dependencies": {
-    "@react-three/drei": "^10.7.9",
-    "@react-three/fiber": "^9.8.1",
-    "@react-three/postprocessing": "^3.1.3",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0",
-    "three": "^0.186.1",
-    "zustand": "^5.0.15"
+    "@threlte/core": "^8.6.1",
+    "postprocessing": "^6.39.5",
+    "svelte": "^5.57.2",
+    "three": "^0.186.1"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^6.1.2",
-    "sharp": "^0.35.5",
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
     "vite": "^8.3.3"
   }
 }
